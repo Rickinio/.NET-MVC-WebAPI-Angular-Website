@@ -1,0 +1,57 @@
+﻿<div class="home-images-container">
+    <div class="home-img"><img src="~/Images/bg1.jpg?v=2" /></div>
+    <div class="home-img"><img src="~/Images/bg2.jpg?v=1" /></div>
+    <div class="home-img"><img src="~/Images/bg3.jpg?v=1" /></div>
+    <div class="home-img"><img src="~/Images/bg4.jpg?v=2" /></div>
+    @*<div class="home-img"></div>
+    <div class="home-img"></div>
+    <div class="home-img"></div>
+    <div class="home-img"></div>*@
+</div>
+<script>
+    var countImg = 0;
+    var cWidth;
+    var cHeight;
+    $(document).ready(function () {
+        //jQuery(document).ready(function ($) {
+        //    $('.home-img').center();
+        //});
+       
+        cWidth = $(window).width();
+        cHeight = $(window).height() - 113;
+        $(".home-images-container").css("height", cHeight + "px");
+        //$(".home-images-container").css("width", cWidth + "px");
+        $($(".home-img")[0]).css("opacity", "1");
+        $($(".home-img")[1]).css("opacity", "0");
+        $($(".home-img")[2]).css("opacity", "0");
+        $($(".home-img")[3]).css("opacity", "0");
+        setTimeout(changeBackground, 5000);
+        function changeBackground() {
+            $($(".home-img")[countImg]).animate({
+                opacity: 0
+            },
+                {
+                    duration: 2500,
+                    queue: false
+                });
+            countImg++;
+            if (countImg == 4) {
+                countImg = 0;
+            }
+            $($(".home-img")[countImg]).animate({
+                opacity: 1
+            },
+                {
+                    duration: 2500,
+                    queue: false
+                });
+            setTimeout(changeBackground, 7000);
+        }
+        $(window).resize(function () {
+            cWidth = $(window).width();
+            cHeight = $(window).height() - 113;
+            $(".home-images-container").css("height", cHeight + "px");
+            //$(".home-images-container").css("width", cWidth + "px");
+        });
+    })
+</script>

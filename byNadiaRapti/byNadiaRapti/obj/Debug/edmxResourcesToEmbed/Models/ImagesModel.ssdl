@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NadiaDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="NadiaDbModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="NadiaDbModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Images" EntityType="NadiaDbModel.Store.Images" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="NadiaDbModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ImagesCategories" Association="NadiaDbModel.Store.FK_ImagesCategories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Category" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Path" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Categories_Id" Type="int" Nullable="false" />
+    <Property Name="Priority" Type="int" Nullable="false" DefaultValue="0" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ImagesCategories">
+    <End Role="Categories" Type="NadiaDbModel.Store.Categories" Multiplicity="1" />
+    <End Role="Images" Type="NadiaDbModel.Store.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="Categories_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

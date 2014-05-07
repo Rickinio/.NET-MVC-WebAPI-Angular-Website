@@ -1,0 +1,57 @@
+﻿@model IEnumerable<byNadiaRapti.Models.Categories>
+<!DOCTYPE html>
+<html ng-app="AdminApp">
+<head>
+    <title>Admin Page</title>
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link href="~/Content/admin-styles.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    @*<script src="~/Scripts/angular-ui-router.min.js"></script>*@
+    <script src="~/Scripts/admin.js"></script>
+</head>
+<body ng-controller="AdminCtrl">
+    <form action="Admin/Index" method="post" enctype="multipart/form-data">
+        <select name="Category" id="Category" ng-model="selectedImage" ng-change="Images()">
+            <option value="0">Select Category</option>
+            @foreach (var item in Model)
+            {
+                <option value="@item.Id">@item.Category</option>
+
+            }
+        </select>
+        <br />
+        <input type="file" name="Files" id="Files" multiple />
+        <input type="submit" value="Send" />
+    </form>
+    <input id="updatebutton" type="button" value="Update Photo Order"/>
+    <div id="sortable">
+        <img data-id="{{img.Id}}" ng-repeat="img in Images" class="admin-img" ng-src="~/Collections/{{img.Path}}" />
+    </div>
+    <script>
+        var a;
+        $(function () {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+        });
+        function IndexId(index,id){
+            this.index = index;
+            this.id = id;
+        }
+        $("#updatebutton").on("click", function () {
+            var positionData = [];
+            $($("#sortable").children()).each(function (index) {
+                var id = $($("#sortable").children()[index]).data("id");
+                positionData.push(new IndexId(index, id));
+            })
+            $.ajax({
+                type: 'POST',
+                url: 'Admin/RepositionPhotos',
+                data: { 'data': JSON.stringify(positionData)}
+            });
+        })
+    </script>
+</body>
+</html>

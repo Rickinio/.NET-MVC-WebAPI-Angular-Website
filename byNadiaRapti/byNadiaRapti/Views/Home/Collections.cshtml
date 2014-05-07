@@ -1,0 +1,8 @@
+﻿<div ng-init ="Images()">
+    <div class="collection-image-container">
+        <a ng-repeat="img in Images" ng-href="~/Collections/{{img.Path}}" data-lightbox="collection" data-title="{{img.Desc}}"><img class="collection-img" ng-src="~/Collections/{{img.Path}}" /></a>
+    </div>
+</div>
+<script>
+
+</script>
